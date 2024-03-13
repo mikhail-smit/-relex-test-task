@@ -1,0 +1,12 @@
+spring.application.name=relex-test-task
+#datasource
+spring.datasource.driver-class-name=
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+spring.jpa.properties.hibernate.dialect=
+
+#JWT
+jwt.secret=
+jwt.lifetime=
