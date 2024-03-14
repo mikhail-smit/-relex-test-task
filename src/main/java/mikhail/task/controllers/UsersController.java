@@ -65,12 +65,12 @@ public class UsersController {
 
     @PutMapping("/{id}")
     public UserDTO update(@PathVariable(name = "id") int id,
-                          @Valid @RequestBody UserDTO userDTO,
+                          @Valid @RequestBody UserRegistrationDTO user,
                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
         }
-        return toDto(userService.update(fromDto(userDTO), id));
+        return toDto(userService.update(mapper.map(user, User.class), id));
     }
 
     @GetMapping("/{id}/harvests")
