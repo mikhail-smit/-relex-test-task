@@ -1,5 +1,6 @@
 package mikhail.task.services;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.exceptions.UserNotFoundException;
 import mikhail.task.models.Role;
 import mikhail.task.models.User;
@@ -12,16 +13,11 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
-    }
 
     public User getById(int id) {
         return userRepository.findById(id)

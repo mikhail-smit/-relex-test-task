@@ -1,5 +1,6 @@
 package mikhail.task.security;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.models.HarvestResult;
 import mikhail.task.models.User;
 import mikhail.task.services.HarvestResultService;
@@ -13,12 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 @Component
+@RequiredArgsConstructor
 public class HarvestResultAccessManager implements AuthorizationManager<RequestAuthorizationContext> {
     private final HarvestResultService harvestResultService;
-
-    public HarvestResultAccessManager(HarvestResultService harvestResultService) {
-        this.harvestResultService = harvestResultService;
-    }
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {

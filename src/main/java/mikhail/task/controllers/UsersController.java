@@ -1,6 +1,7 @@
 package mikhail.task.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.DatePeriod;
 import mikhail.task.dto.HarvestResultDTO;
 import mikhail.task.dto.UserDTO;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
+@RequiredArgsConstructor
 public class UsersController {
 
     private final UserService userService;
@@ -27,14 +29,6 @@ public class UsersController {
     private final HarvestResultService harvestResultService;
     private final HarvestResultUtils harvestResultUtils;
     private final ErrorMessageUtils messageUtils;
-
-    public UsersController(UserService userService, ModelMapper mapper, HarvestResultService harvestResultService, HarvestResultUtils harvestResultUtils, ErrorMessageUtils messageUtils) {
-        this.userService = userService;
-        this.mapper = mapper;
-        this.harvestResultService = harvestResultService;
-        this.harvestResultUtils = harvestResultUtils;
-        this.messageUtils = messageUtils;
-    }
 
     @GetMapping
     public List<UserDTO> getAll() {

@@ -1,5 +1,6 @@
 package mikhail.task.services;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.models.User;
 import mikhail.task.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,12 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class WorkerDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-
-    public WorkerDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

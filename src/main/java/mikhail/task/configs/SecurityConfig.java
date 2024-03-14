@@ -1,5 +1,6 @@
 package mikhail.task.configs;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.security.HarvestResultAccessManager;
 import mikhail.task.security.JwtFilter;
 import mikhail.task.security.WorkerAccessManager;
@@ -20,18 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final WorkerDetailsService workerDetailsService;
     private final JwtFilter jwtFilter;
     private final WorkerAccessManager workerAccessManager;
     private final HarvestResultAccessManager harvestResultAccessManager;
-
-    public SecurityConfig(WorkerDetailsService workerDetailsService, JwtFilter jwtFilter, WorkerAccessManager workerAccessManager, HarvestResultAccessManager harvestResultAccessManager) {
-        this.workerDetailsService = workerDetailsService;
-        this.jwtFilter = jwtFilter;
-        this.workerAccessManager = workerAccessManager;
-        this.harvestResultAccessManager = harvestResultAccessManager;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

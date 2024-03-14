@@ -1,6 +1,7 @@
 package mikhail.task.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.DatePeriod;
 import mikhail.task.dto.HarvestResultDTO;
 import mikhail.task.exceptions.IncorrectInputFieldException;
@@ -15,16 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/harvests")
+@RequiredArgsConstructor
 public class HarvestResultsController {
     private final HarvestResultService harvestResultService;
     private final HarvestResultUtils harvestResultUtils;
     private final ErrorMessageUtils messageUtils;
-
-    public HarvestResultsController(HarvestResultService harvestResultService, HarvestResultUtils harvestResultUtils, ErrorMessageUtils messageUtils) {
-        this.harvestResultService = harvestResultService;
-        this.harvestResultUtils = harvestResultUtils;
-        this.messageUtils = messageUtils;
-    }
 
     @GetMapping
     public List<HarvestResultDTO> getAll() {

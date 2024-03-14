@@ -1,6 +1,7 @@
 package mikhail.task.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.ProductDTO;
 import mikhail.task.exceptions.IncorrectInputFieldException;
 import mikhail.task.models.Product;
@@ -15,16 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/products")
+@RequiredArgsConstructor
 public class ProductsController {
     private final ProductService productService;
     private final ModelMapper mapper;
     private final ErrorMessageUtils messageUtils;
-
-    public ProductsController(ProductService productService, ModelMapper mapper, ErrorMessageUtils messageUtils) {
-        this.productService = productService;
-        this.mapper = mapper;
-        this.messageUtils = messageUtils;
-    }
 
     @GetMapping
     public List<ProductDTO> getAll() {

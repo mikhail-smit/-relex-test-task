@@ -1,5 +1,6 @@
 package mikhail.task.controllers;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.AuthDTO;
 import mikhail.task.dto.JwtDTO;
 import mikhail.task.services.RoleService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authManager;
@@ -21,14 +23,6 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
     private final RoleService roleService;
-
-    public AuthController(AuthenticationManager authManager, WorkerDetailsService workerDetailsService, JwtUtils jwtUtils, UserService userService, RoleService roleService) {
-        this.authManager = authManager;
-        this.workerDetailsService = workerDetailsService;
-        this.jwtUtils = jwtUtils;
-        this.userService = userService;
-        this.roleService = roleService;
-    }
 
     @PostMapping
     public ResponseEntity<JwtDTO> auth(@RequestBody AuthDTO auth) {

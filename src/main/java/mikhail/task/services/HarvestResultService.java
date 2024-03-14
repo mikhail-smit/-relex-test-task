@@ -1,5 +1,6 @@
 package mikhail.task.services;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.exceptions.HarvestResultNotFoundException;
 import mikhail.task.models.HarvestResult;
 import mikhail.task.models.Product;
@@ -12,14 +13,10 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class HarvestResultService {
     private final HarvestResultRepository harvestResultRepository;
     private final ProductService productService;
-
-    public HarvestResultService(HarvestResultRepository harvestResultRepository, ProductService productService) {
-        this.harvestResultRepository = harvestResultRepository;
-        this.productService = productService;
-    }
 
     public HarvestResult getById(int id) {
         return harvestResultRepository.findById(id)

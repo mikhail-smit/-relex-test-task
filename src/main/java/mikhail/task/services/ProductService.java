@@ -1,5 +1,6 @@
 package mikhail.task.services;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.exceptions.ProductNotFoundException;
 import mikhail.task.models.Product;
 import mikhail.task.repositories.ProductRepository;
@@ -10,12 +11,9 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     public Product getById(int id) {
         return productRepository.findById(id)

@@ -1,5 +1,6 @@
 package mikhail.task.security;
 
+import lombok.RequiredArgsConstructor;
 import mikhail.task.models.User;
 import mikhail.task.services.UserService;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -12,12 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 @Component
+@RequiredArgsConstructor
 public class WorkerAccessManager implements AuthorizationManager<RequestAuthorizationContext> {
     private final UserService userService;
-
-    public WorkerAccessManager(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
