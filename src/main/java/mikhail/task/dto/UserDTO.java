@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-    @Min(1)
     private int id;
 
     @NotBlank(message = "No name")

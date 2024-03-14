@@ -15,6 +15,6 @@ public class UserRegistrationDTO {
     private String email;
 
     @NotBlank(message = "No password")
-    @Size(min = 8)
+    @Size(min = 8, message = "Too short password")
     private String password;
 }
