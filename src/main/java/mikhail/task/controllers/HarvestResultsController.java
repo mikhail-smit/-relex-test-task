@@ -1,10 +1,14 @@
 package mikhail.task.controllers;
 
+import jakarta.validation.Valid;
 import mikhail.task.dto.DatePeriod;
 import mikhail.task.dto.HarvestResultDTO;
+import mikhail.task.exceptions.IncorrectInputFieldException;
 import mikhail.task.services.HarvestResultService;
+import mikhail.task.utils.ErrorMessageUtils;
 import mikhail.task.utils.HarvestResultUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +18,12 @@ import java.util.List;
 public class HarvestResultsController {
     private final HarvestResultService harvestResultService;
     private final HarvestResultUtils harvestResultUtils;
+    private final ErrorMessageUtils messageUtils;
 
-    public HarvestResultsController(HarvestResultService harvestResultService, HarvestResultUtils harvestResultUtils) {
+    public HarvestResultsController(HarvestResultService harvestResultService, HarvestResultUtils harvestResultUtils, ErrorMessageUtils messageUtils) {
         this.harvestResultService = harvestResultService;
         this.harvestResultUtils = harvestResultUtils;
+        this.messageUtils = messageUtils;
     }
 
     @GetMapping
@@ -34,7 +40,10 @@ public class HarvestResultsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HarvestResultDTO create(@RequestBody HarvestResultDTO harvestResult) {
+    public HarvestResultDTO create(@Valid @RequestBody HarvestResultDTO harvestResult, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
+        }
         return harvestResultUtils.toDto(
                 harvestResultService.save(harvestResultUtils.fromDto(harvestResult))
         );
@@ -48,7 +57,11 @@ public class HarvestResultsController {
 
     @PutMapping("/{id}")
     public HarvestResultDTO update(@PathVariable(name = "id") int id,
-                                   @RequestBody HarvestResultDTO harvestResult) {
+                                   @Valid @RequestBody HarvestResultDTO harvestResult,
+                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
+        }
         return harvestResultUtils.toDto(
                 harvestResultService.update(harvestResultUtils.fromDto(harvestResult), id)
         );
