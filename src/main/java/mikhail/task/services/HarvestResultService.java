@@ -53,10 +53,17 @@ public class HarvestResultService {
         return harvestResultRepository.findAllByUserId(id);
     }
 
+    /**
+     * @param id user which harvests we want to get
+     *           between dates from and to
+     */
     public List<HarvestResult> getByUserId(int id, Date from, Date to) {
         return harvestResultRepository.findAllByAtMomentBetweenAndUserId(from, to, id);
     }
 
+    /**
+     * @return all HarvestResults between dates from and to
+     */
     public List<HarvestResult> getBetweenDates(Date from, Date to) {
         return harvestResultRepository.findAllByAtMomentBetween(from, to);
     }

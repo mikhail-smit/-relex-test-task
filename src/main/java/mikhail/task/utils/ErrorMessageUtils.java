@@ -5,6 +5,9 @@ import org.springframework.validation.Errors;
 
 import java.util.stream.Collectors;
 
+/**
+ * Util class which creates message from BindingResult field errors
+ */
 @Component
 public class ErrorMessageUtils {
     public String createMessage(Errors errors) {

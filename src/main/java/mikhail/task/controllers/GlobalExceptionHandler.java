@@ -11,6 +11,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Class which catches exception through all code
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler

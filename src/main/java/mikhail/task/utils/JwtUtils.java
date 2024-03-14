@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.Date;
 
+/**
+ * Class generates JWT token and get claims from token
+ */
 @Component
 public class JwtUtils {
     private static final String ISSUER = "mikhail.task";

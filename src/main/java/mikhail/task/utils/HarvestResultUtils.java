@@ -6,6 +6,9 @@ import mikhail.task.models.Product;
 import mikhail.task.models.User;
 import org.springframework.stereotype.Component;
 
+/**
+ * Harvest result DTO cant be mapped with ModelMapper so this class exists
+ */
 @Component
 public class HarvestResultUtils {
     public HarvestResultDTO toDto(HarvestResult harvest) {

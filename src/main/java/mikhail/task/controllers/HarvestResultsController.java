@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Rest controller for harvest entity.
+ */
 @RestController
 @RequestMapping("/v1/harvests")
 @RequiredArgsConstructor
@@ -63,6 +66,11 @@ public class HarvestResultsController {
         );
     }
 
+    /**
+     *
+     * @param datePeriod two dates in DTO
+     * @return HarvestResults which created between two dates
+     */
     @GetMapping("/between")
     public List<HarvestResultDTO> getBetweenDates(@RequestBody DatePeriod datePeriod) {
         return harvestResultService.getBetweenDates(datePeriod.getFrom(), datePeriod.getTo()).stream()

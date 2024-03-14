@@ -13,20 +13,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Supplier;
 
+/**
+ * This AuthorizationManager controlls that User has accsess only to HarvestResults
+ * which this User created
+ */
 @Component
 @RequiredArgsConstructor
 public class HarvestResultAccessManager implements AuthorizationManager<RequestAuthorizationContext> {
     private final HarvestResultService harvestResultService;
 
+    /**
+     * @param authentication contains userDeatails about authenticated user who doing request
+     * @param context        contains path variables of request
+     * @return AuthorizationDecision with true if user has access else with false
+     */
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         UserDetails userWhoDoRequest = (UserDetails) authentication.get().getPrincipal();
+        // admin and owner can view every record
         if (isOwnerOrAdmin(userWhoDoRequest)) {
             return new AuthorizationDecision(true);
         }
 
         int id = Integer.parseInt(context.getVariables().get("id"));
         HarvestResult harvestWhichDataWants = harvestResultService.getById(id);
+        // if userWhoDoRequest and user which did record about HarvestResult are one user then access is open
         return new AuthorizationDecision(isSameUser(userWhoDoRequest, harvestWhichDataWants.getUser()));
     }
 

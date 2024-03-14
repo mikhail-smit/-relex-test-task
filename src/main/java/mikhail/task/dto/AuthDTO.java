@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * DTO for user login
+ */
 @Data
 public class AuthDTO {
     @NotBlank(message = "No email")

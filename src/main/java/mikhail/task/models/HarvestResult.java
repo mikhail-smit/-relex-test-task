@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * Class represents record about 'User' who pick (make, etc.) some 'Product'
+ * with count 'count' at moment 'atMoment'
+ */
 @Entity
 @Table(name = "harvest_results")
 @Data

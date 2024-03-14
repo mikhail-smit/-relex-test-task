@@ -16,6 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Filter checks user has correct JWT and put Principal in SecurityContextHolder
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -31,6 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 String email = jwtUtils.getEmailFromToken(jwt);
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    // load user from database for each request becouse of jwt token can be not expired,
+                    // but user might be blocked or user can get new rights
                     UserDetails worker = workerDetailsService.loadUserByUsername(email);
                     SecurityContextHolder.getContext()
                             .setAuthentication(new UsernamePasswordAuthenticationToken(

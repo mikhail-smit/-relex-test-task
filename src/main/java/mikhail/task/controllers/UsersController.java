@@ -67,6 +67,10 @@ public class UsersController {
         return toDto(userService.update(mapper.map(user, User.class), id));
     }
 
+    /**
+     * @param id user id which HarvestResults client want to find
+     * @return HarvestResults of user
+     */
     @GetMapping("/{id}/harvests")
     public List<HarvestResultDTO> getUserHarvestResults(@PathVariable(name = "id") int id) {
         return harvestResultService.getByUserId(id).stream()
@@ -74,6 +78,12 @@ public class UsersController {
                 .toList();
     }
 
+    /**
+     *
+     * @param id user id which HarvestResults client want to find
+     * @param period between two dates
+     * @return HarvestResults of user between dates
+     */
     @GetMapping("/{id}/harvests/between")
     public List<HarvestResultDTO> getUserHarvestResultsForTime(@PathVariable(name = "id") int id,
                                                                @RequestBody DatePeriod period) {

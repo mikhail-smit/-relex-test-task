@@ -13,6 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for user authorization.
+ * Also, owner can add ROLE_ADMIN to employees here.
+ */
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
@@ -35,6 +39,9 @@ public class AuthController {
         return ResponseEntity.ok(new JwtDTO(jwtUtils.getToken(userDetails)));
     }
 
+    /**
+     * User with {id} became admin
+     */
     @PostMapping("/admin/{id}")
     public void makeUserAdmin(@PathVariable int id) {
         userService.addRole(id, roleService.getByName("ROLE_ADMIN"));
