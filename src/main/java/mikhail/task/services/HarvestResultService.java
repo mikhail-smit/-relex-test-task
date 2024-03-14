@@ -20,27 +20,22 @@ public class HarvestResultService {
     private final HarvestResultRepository harvestResultRepository;
     private final ProductService productService;
 
-    @Cacheable(cacheNames = "harvestResult", key = "#id")
     public HarvestResult getById(int id) {
         return harvestResultRepository.findById(id)
                 .orElseThrow(() -> new HarvestResultNotFoundException("Harvest result not found, id: " + id));
     }
 
-    @Cacheable(cacheNames = "harvestResult")
     public List<HarvestResult> getAll() {
         return harvestResultRepository.findAll();
     }
 
     @Transactional
-    // cache evict for update cache in get all method
-    @CacheEvict(cacheNames = "harvestResult", allEntries = true)
     public HarvestResult save(HarvestResult harvestResult) {
         updateProductCount(harvestResult.getProduct().getId(), harvestResult.getCount());
         return harvestResultRepository.save(harvestResult);
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "harvestResult", allEntries = true)
     public HarvestResult update(HarvestResult harvestResult, int id) {
         harvestResult.setId(id);
         updateProductCount(harvestResult.getProduct().getId(),
@@ -49,7 +44,6 @@ public class HarvestResultService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "harvestResult", allEntries = true)
     public void deleteById(int id) {
         HarvestResult harvestResult = getById(id);
         updateProductCount(harvestResult.getProduct().getId(),
@@ -57,7 +51,6 @@ public class HarvestResultService {
         harvestResultRepository.deleteById(id);
     }
 
-    @Cacheable(cacheNames = "harvestResult", key = "#id")
     public List<HarvestResult> getByUserId(int id) {
         return harvestResultRepository.findAllByUserId(id);
     }
@@ -66,7 +59,6 @@ public class HarvestResultService {
      * @param id user which harvests we want to get
      *           between dates from and to
      */
-    @Cacheable(cacheNames = "harvestResult", key = "#id")
     public List<HarvestResult> getByUserId(int id, Date from, Date to) {
         return harvestResultRepository.findAllByAtMomentBetweenAndUserId(from, to, id);
     }
@@ -74,7 +66,6 @@ public class HarvestResultService {
     /**
      * @return all HarvestResults between dates from and to
      */
-    @Cacheable(cacheNames = "harvestResult", key = "#id")
     public List<HarvestResult> getBetweenDates(Date from, Date to) {
         return harvestResultRepository.findAllByAtMomentBetween(from, to);
     }

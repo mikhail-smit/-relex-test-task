@@ -17,35 +17,28 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    @Cacheable(cacheNames = "product", key = "#id")
     public Product getById(int id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found, id: " + id));
     }
 
-    @Cacheable(cacheNames = "product")
     public List<Product> getAll() {
         return productRepository.findAll();
     }
 
     @Transactional
-    // cache evict for update cache in get all method
-    @CacheEvict(cacheNames = "product", allEntries = true)
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
 
     @Transactional
-    // cache evict for update cache in get all method
-    @CacheEvict(cacheNames = "product", allEntries = true)
     public Product update(Product product, int id) {
         product.setId(id);
         return productRepository.save(product);
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "product", key = "#id")
     public void deleteById(int id) {
         productRepository.deleteById(id);
     }
