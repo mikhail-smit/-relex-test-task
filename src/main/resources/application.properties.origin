@@ -10,3 +10,10 @@ spring.jpa.properties.hibernate.dialect=
 #JWT
 jwt.secret=
 jwt.lifetime=
+
+spring.cache.type=redis
+spring.cache.redis.time-to-live=
+spring.cache.redis.cache-null-values=
+spring.redis.host=
+spring.redis.port=
+spring.redis.password=
