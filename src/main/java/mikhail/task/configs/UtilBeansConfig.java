@@ -1,10 +1,10 @@
 package mikhail.task.configs;
 
-import mikhail.task.utils.ErrorMessageUtils;
-import mikhail.task.utils.HarvestResultUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class UtilBeansConfig {
@@ -13,5 +13,8 @@ public class UtilBeansConfig {
         return new ModelMapper();
     }
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
