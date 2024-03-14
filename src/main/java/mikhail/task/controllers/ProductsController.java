@@ -1,10 +1,14 @@
 package mikhail.task.controllers;
 
+import jakarta.validation.Valid;
 import mikhail.task.dto.ProductDTO;
+import mikhail.task.exceptions.IncorrectInputFieldException;
 import mikhail.task.models.Product;
 import mikhail.task.services.ProductService;
+import mikhail.task.utils.ErrorMessageUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +18,12 @@ import java.util.List;
 public class ProductsController {
     private final ProductService productService;
     private final ModelMapper mapper;
+    private final ErrorMessageUtils messageUtils;
 
-    public ProductsController(ProductService productService, ModelMapper mapper) {
+    public ProductsController(ProductService productService, ModelMapper mapper, ErrorMessageUtils messageUtils) {
         this.productService = productService;
         this.mapper = mapper;
+        this.messageUtils = messageUtils;
     }
 
     @GetMapping
@@ -34,7 +40,10 @@ public class ProductsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO create(@RequestBody ProductDTO product) {
+    public ProductDTO create(@Valid @RequestBody ProductDTO product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
+        }
         return toDto(productService.save(fromDto(product)));
     }
 
@@ -45,7 +54,12 @@ public class ProductsController {
     }
 
     @PutMapping("/{id}")
-    public ProductDTO update(@PathVariable(name = "id") int id, @RequestBody ProductDTO product) {
+    public ProductDTO update(@PathVariable(name = "id") int id,
+                             @Valid @RequestBody ProductDTO product,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
+        }
         return toDto(productService.update(fromDto(product), id));
     }
 
