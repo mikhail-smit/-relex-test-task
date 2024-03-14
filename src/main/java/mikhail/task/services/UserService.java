@@ -1,6 +1,7 @@
 package mikhail.task.services;
 
 import mikhail.task.exceptions.UserNotFoundException;
+import mikhail.task.models.Role;
 import mikhail.task.models.User;
 import mikhail.task.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,15 @@ public class UserService {
     public User update(User user, int id) {
         user.setId(id);
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public User addRole(int id, Role role) {
+        User toUpdate = getById(id);
+        List<Role> roles = toUpdate.getRoles();
+        roles.add(role);
+        toUpdate.setRoles(roles);
+        return userRepository.save(toUpdate);
     }
 
     @Transactional

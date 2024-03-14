@@ -2,13 +2,13 @@ package mikhail.task.controllers;
 
 import mikhail.task.dto.AuthDTO;
 import mikhail.task.dto.JwtDTO;
+import mikhail.task.services.RoleService;
+import mikhail.task.services.UserService;
 import mikhail.task.services.WorkerDetailsService;
 import mikhail.task.utils.JwtUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +19,15 @@ public class AuthController {
     private final AuthenticationManager authManager;
     private final WorkerDetailsService workerDetailsService;
     private final JwtUtils jwtUtils;
+    private final UserService userService;
+    private final RoleService roleService;
 
-    public AuthController(AuthenticationManager authManager, WorkerDetailsService workerDetailsService, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authManager, WorkerDetailsService workerDetailsService, JwtUtils jwtUtils, UserService userService, RoleService roleService) {
         this.authManager = authManager;
         this.workerDetailsService = workerDetailsService;
         this.jwtUtils = jwtUtils;
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
     @PostMapping
@@ -37,4 +41,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtDTO(jwtUtils.getToken(userDetails)));
     }
 
+    @PostMapping("/admin/{id}")
+    public void makeUserAdmin(@PathVariable int id) {
+        userService.addRole(id, roleService.getByName("ROLE_ADMIN"));
+    }
 }
