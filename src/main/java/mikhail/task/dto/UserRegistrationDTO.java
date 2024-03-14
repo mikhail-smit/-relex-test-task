@@ -17,4 +17,6 @@ public class UserRegistrationDTO {
     @NotBlank(message = "No password")
     @Size(min = 8, message = "Too short password")
     private String password;
+
+    private boolean isLocked;
 }
