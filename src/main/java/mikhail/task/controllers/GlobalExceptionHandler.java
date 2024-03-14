@@ -2,6 +2,7 @@ package mikhail.task.controllers;
 
 import mikhail.task.dto.ErrorMessage;
 import mikhail.task.exceptions.HarvestResultNotFoundException;
+import mikhail.task.exceptions.IncorrectInputFieldException;
 import mikhail.task.exceptions.ProductNotFoundException;
 import mikhail.task.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorMessage> harvestResultNotFound(HarvestResultNotFoundException e) {
         return entityNotFound(e);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> incorrectInputField(IncorrectInputFieldException e) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new ErrorMessage(e.getMessage(),
+                        System.currentTimeMillis(),
+                        HttpStatus.UNPROCESSABLE_ENTITY
+                ));
     }
 
     private ResponseEntity<ErrorMessage> entityNotFound(RuntimeException e) {
