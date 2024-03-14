@@ -21,9 +21,8 @@ public class WorkerAccessManager implements AuthorizationManager<RequestAuthoriz
     private final UserService userService;
 
     /**
-     *
      * @param authentication contains userDeatails about authenticated user who doing request
-     * @param context contains path variables of request. For example '\\users\{id}\harvests'
+     * @param context        contains path variables of request. For example '\\users\{id}\harvests'
      */
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
