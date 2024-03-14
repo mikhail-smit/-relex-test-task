@@ -7,13 +7,14 @@ import mikhail.task.exceptions.ProductNotFoundException;
 import mikhail.task.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<ErrorMessage> useNotFound(UserNotFoundException e) {
+    public ResponseEntity<ErrorMessage> userNotFound(UserNotFoundException e) {
         return entityNotFound(e);
     }
 
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
                         System.currentTimeMillis(),
                         HttpStatus.UNPROCESSABLE_ENTITY
                 ));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> badCredentials(AuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Incorrect password or email! Perhaps account is locked");
     }
 
     private ResponseEntity<ErrorMessage> entityNotFound(RuntimeException e) {

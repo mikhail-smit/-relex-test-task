@@ -37,9 +37,4 @@ public class AuthController {
         return ResponseEntity.ok(new JwtDTO(jwtUtils.getToken(userDetails)));
     }
 
-    @ExceptionHandler
-    public ResponseEntity<String> badCredentials(AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Incorrect password ot username!");
-    }
 }
