@@ -77,7 +77,10 @@ Body:
     }
 ```
 
-Также реализованы контроллеры для Товаров (ProductController), Сотрудников (UserController) и 'Записей о сборе урожая' (HarvestResultController), реализующие стандартные REST HTTP запросы.
+Также реализованы контроллеры для Товаров (ProductController), Сотрудников (UserController) и 'Записей о сборе урожая' (HarvestResultController), чтобы не документировать все запросы вручную добавил Springdoc. Получить общее представление можно ниже:
+![first page](Swagger UI/Swagger UI-1.png?raw=true "Title")
+![second page](Swagger UI/Swagger UI-2.png?raw=true "Title")
+![third page](Swagger UI/Swagger UI-3.png?raw=true "Title")
 
 ## Автор
 Медведев Михаил 
