@@ -1,5 +1,8 @@
 package mikhail.task.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.ProductDTO;
@@ -17,12 +20,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/products")
 @RequiredArgsConstructor
+@Tag(name = "Products", description = "Methods for products")
 public class ProductsController {
     private final ProductService productService;
     private final ModelMapper mapper;
     private final ErrorMessageUtils messageUtils;
 
     @GetMapping
+    @Operation(summary = "Returns all products")
     public List<ProductDTO> getAll() {
         return productService.getAll().stream()
                 .map(this::toDto)
@@ -30,13 +35,16 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Returns product by Id")
     public ProductDTO getProduct(@PathVariable(name = "id") int id) {
         return toDto(productService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO create(@Valid @RequestBody ProductDTO product, BindingResult bindingResult) {
+    @Operation(summary = "Adds new product")
+    public ProductDTO create(@Valid @RequestBody ProductDTO product,
+                             @Parameter(hidden = true) BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
         }
@@ -45,11 +53,13 @@ public class ProductsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletes product by Id")
     public void delete(@PathVariable(name = "id") int id) {
         productService.deleteById(id);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Updates product data")
     public ProductDTO update(@PathVariable(name = "id") int id,
                              @Valid @RequestBody ProductDTO product,
                              BindingResult bindingResult) {

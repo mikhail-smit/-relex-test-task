@@ -1,5 +1,8 @@
 package mikhail.task.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.DatePeriod;
@@ -22,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "Users", description = "Methods for users")
 public class UsersController {
 
     private final UserService userService;
@@ -31,6 +35,7 @@ public class UsersController {
     private final ErrorMessageUtils messageUtils;
 
     @GetMapping
+    @Operation(summary = "Returns all users")
     public List<UserDTO> getAll() {
         return userService.getAll().stream()
                 .map(this::toDto)
@@ -38,13 +43,16 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Returns user by Id")
     public UserDTO getUser(@PathVariable(name = "id") int id) {
         return toDto(userService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody UserRegistrationDTO user, BindingResult bindingResult) {
+    @Operation(summary = "Adds new user")
+    public UserDTO create(@Valid @RequestBody UserRegistrationDTO user,
+                          @Parameter(hidden = true) BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
         }
@@ -53,14 +61,16 @@ public class UsersController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletes user by Id")
     public void delete(@PathVariable(name = "id") int id) {
         userService.deleteById(id);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Updates user data")
     public UserDTO update(@PathVariable(name = "id") int id,
                           @Valid @RequestBody UserRegistrationDTO user,
-                          BindingResult bindingResult) {
+                          @Parameter(hidden = true) BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new IncorrectInputFieldException(messageUtils.createMessage(bindingResult));
         }
@@ -72,6 +82,7 @@ public class UsersController {
      * @return HarvestResults of user
      */
     @GetMapping("/{id}/harvests")
+    @Operation(summary = "Returns harvests results of user by Id")
     public List<HarvestResultDTO> getUserHarvestResults(@PathVariable(name = "id") int id) {
         return harvestResultService.getByUserId(id).stream()
                 .map(harvestResultUtils::toDto)
@@ -79,12 +90,12 @@ public class UsersController {
     }
 
     /**
-     *
-     * @param id user id which HarvestResults client want to find
+     * @param id     user id which HarvestResults client want to find
      * @param period between two dates
      * @return HarvestResults of user between dates
      */
     @GetMapping("/{id}/harvests/between")
+    @Operation(summary = "Returns harvest results of user between dates by user Id")
     public List<HarvestResultDTO> getUserHarvestResultsForTime(@PathVariable(name = "id") int id,
                                                                @RequestBody DatePeriod period) {
         return harvestResultService.getByUserId(id, period.getFrom(), period.getTo()).stream()

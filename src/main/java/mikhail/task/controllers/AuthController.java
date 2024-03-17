@@ -1,5 +1,7 @@
 package mikhail.task.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mikhail.task.dto.AuthDTO;
 import mikhail.task.dto.JwtDTO;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Methods for authentication and role assignment")
 public class AuthController {
 
     private final AuthenticationManager authManager;
@@ -29,6 +32,7 @@ public class AuthController {
     private final RoleService roleService;
 
     @PostMapping
+    @Operation(summary = "User authenticate")
     public ResponseEntity<JwtDTO> auth(@RequestBody AuthDTO auth) {
         UserDetails userDetails = (UserDetails) authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -43,6 +47,7 @@ public class AuthController {
      * User with {id} became admin
      */
     @PostMapping("/admin/{id}")
+    @Operation(summary = "Admin assignment by Id")
     public void makeUserAdmin(@PathVariable int id) {
         userService.addRole(id, roleService.getByName("ROLE_ADMIN"));
     }
